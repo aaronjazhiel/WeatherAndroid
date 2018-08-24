@@ -83,7 +83,7 @@ public class MainActivity extends Activity {
                     public void onResponse(String response) {
                         //try {
 
-                        System.out.print("aaaaaaaaaaaaaaaaaaaaaaaa"+response.substring(0,500));
+                        System.out.print("aaaaaaaaaaaaaaaaaaaaaaabbba"+response.substring(0,500));
 
                           //  getCurrentWetaherFromJson(response);
                        // } catch (JSONException e) {
