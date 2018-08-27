@@ -27,7 +27,6 @@ import butterknife.OnClick;
 
 public class MainActivity extends Activity {
 
-
     @BindView(R.id.imageView)
     ImageView imagenTiempo;
 
@@ -60,35 +59,22 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        CurrentWethear currentWethear = new CurrentWethear(MainActivity.this);
-
-
-        currentWethear.setImagenTiempo("sunny");
-        currentWethear.setDescripcionWeather("Beltran como estas");
-        currentWethear.setGradosnWeather("60");
-        currentWethear.setGradoUnoWeather("H:39°");
-        currentWethear.setGradDosWwtaher("L:23°");
-
-       imagenTiempo.setImageDrawable(currentWethear.getIconDrawableResource());
-        descripcionWeather.setText(currentWethear.getDescripcionWeather());
-        gradosnWeather.setText(currentWethear.getGradosnWeather());
-        gradoUnoWeather.setText(currentWethear.getGradoUnoWeather());
-        gradDosWwtaher.setText(currentWethear.getGradDosWwtaher());
-
          RequestQueue queue = Volley.newRequestQueue(this);
-         String url ="https://api.darksky.net/forecast/4f0c0ebef23640b55627ee2f95d57261/37.8267,-122.4233";
+         String url ="https://api.darksky.net/forecast/4f0c0ebef23640b55627ee2f95d57261/19.4284700,-99.1276600?units=si";
          StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        //try {
-
-                        System.out.print("aaaaaaaaaaaaaaaaaaaaaaabbba"+response.substring(0,500));
-
-                          //  getCurrentWetaherFromJson(response);
-                       // } catch (JSONException e) {
-                         //   e.printStackTrace();
-                        //}
+                        try {
+                            CurrentWethear currentWethear=getCurrentWetaherFromJson(response);
+                            imagenTiempo.setImageDrawable(currentWethear.getIconDrawableResource());
+                            descripcionWeather.setText(currentWethear.getDescripcionWeather());
+                            gradosnWeather.setText(currentWethear.getTemperature());
+                            gradoUnoWeather.setText(currentWethear.getGradoUnoWeather());
+                            gradDosWwtaher.setText(currentWethear.getGradDosWwtaher());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -98,8 +84,6 @@ public class MainActivity extends Activity {
             }
         });
          queue.add(stringRequest);
-
-
 
 
         dailyWeather.setOnClickListener(new View.OnClickListener() {
@@ -130,18 +114,22 @@ public class MainActivity extends Activity {
     }
 
     private CurrentWethear getCurrentWetaherFromJson(String json) throws JSONException{
-
-       // JSONObject jsonObject = new JSONObject(json);
-        //JSONObject  currentyWeather =  jsonObject.getJSONObject("currently");
-        //JSONObject dalyWeather = jsonObject.getJSONObject("daily");
-        //JSONArray jsonData  = jsonObject.getJSONArray("data");
-        //String sumary = currentyWeather.getString("summaryyy");
-        //String icon = currentyWeather.getString("icon");
-        //String temperature = currentyWeather.getDouble("temperature") + " ";
-
-
-       System.out.println("Probando la petición "+ json);
-
-        return null;
+         JSONObject jsonObject = new JSONObject(json);
+         JSONObject  currentyWeather =  jsonObject.getJSONObject("currently");
+         String sumary = currentyWeather.getString("summary");
+         String icon = currentyWeather.getString("icon");
+         String temperature = Math.round(currentyWeather.getDouble("temperature")) + " ";
+         JSONObject  jsonWithDayWeather = jsonObject.getJSONObject("daily");
+         JSONArray  jsonWithDataWeather = jsonWithDayWeather.getJSONArray("data");
+         JSONObject jsoTodayWeather = jsonWithDataWeather.getJSONObject(0);
+         String maxTemperature ="H: "+ Math.round(jsoTodayWeather.getDouble("temperatureMax"))+ "";
+         String minTemperature ="L: "+Math.round(jsoTodayWeather.getDouble("temperatureMin"))+ "";
+         CurrentWethear currentWethear = new CurrentWethear(MainActivity.this);
+         currentWethear.setDescripcionWeather(sumary);
+         currentWethear.setImagenTiempo(icon);
+         currentWethear.setTemperature(temperature);
+         currentWethear.setGradoUnoWeather(maxTemperature);
+         currentWethear.setGradDosWwtaher(minTemperature);
+        return currentWethear;
     }
 }

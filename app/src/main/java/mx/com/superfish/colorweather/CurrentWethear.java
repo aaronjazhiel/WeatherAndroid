@@ -10,9 +10,11 @@ public class CurrentWethear {
 
     private String imagenTiempo;
     private String descripcionWeather;
-    private String  gradosnWeather;
     private String  gradoUnoWeather;
     private String  gradDosWwtaher;
+    private String  temperature;
+
+
 
     public static final String CLEAR_NIGHT = "clear-night";
     public static final String CLEAR_DAY = "clear-day";
@@ -47,6 +49,14 @@ public class CurrentWethear {
 
     }
 
+    public String getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
+
     public String getImagenTiempo() {
         return imagenTiempo;
     }
@@ -61,14 +71,6 @@ public class CurrentWethear {
 
     public void setDescripcionWeather(String descripcionWeather) {
         this.descripcionWeather = descripcionWeather;
-    }
-
-    public String getGradosnWeather() {
-        return gradosnWeather;
-    }
-
-    public void setGradosnWeather(String gradosnWeather) {
-        this.gradosnWeather = gradosnWeather;
     }
 
     public String getGradoUnoWeather() {
