@@ -7,6 +7,10 @@ public class ClienteSuperFish {
     private String fecha;
     private String horario;
 
+    public ClienteSuperFish(){
+
+    }
+
     public ClienteSuperFish(String nombre, String correo, String fecha, String horario) {
         this.nombre = nombre;
         this.correo = correo;

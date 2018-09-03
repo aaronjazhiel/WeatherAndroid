@@ -19,6 +19,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,11 +62,7 @@ public class MainActivity extends Activity {
         ButterKnife.bind(this);
 
          RequestQueue queue = Volley.newRequestQueue(this);
-      //   String url ="https://api.darksky.net/forecast/4f0c0ebef23640b55627ee2f95d57261/19.4284700,-99.1276600?units=si";
-
-        String url ="http://www.superfish.com.mx/v1/citas";
-
-
+         String url ="https://api.darksky.net/forecast/4f0c0ebef23640b55627ee2f95d57261/19.4284700,-99.1276600?units=si";
 
          StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -72,11 +70,11 @@ public class MainActivity extends Activity {
                     public void onResponse(String response) {
                         try {
                             CurrentWethear currentWethear=getCurrentWetaherFromJson(response);
-                           // imagenTiempo.setImageDrawable(currentWethear.getIconDrawableResource());
-                            //descripcionWeather.setText(currentWethear.getDescripcionWeather());
-                            //gradosnWeather.setText(currentWethear.getTemperature());
-                            //gradoUnoWeather.setText(currentWethear.getGradoUnoWeather());
-                            //gradDosWwtaher.setText(currentWethear.getGradDosWwtaher());
+                            imagenTiempo.setImageDrawable(currentWethear.getIconDrawableResource());
+                            descripcionWeather.setText(currentWethear.getDescripcionWeather());
+                            gradosnWeather.setText(currentWethear.getTemperature());
+                            gradoUnoWeather.setText(currentWethear.getGradoUnoWeather());
+                            gradDosWwtaher.setText(currentWethear.getGradDosWwtaher());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -89,7 +87,6 @@ public class MainActivity extends Activity {
             }
         });
          queue.add(stringRequest);
-
 
         dailyWeather.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,33 +116,9 @@ public class MainActivity extends Activity {
     }
 
     private CurrentWethear getCurrentWetaherFromJson(String json) throws JSONException{
-        // JSONObject jsonObject = new JSONObject(json);
-
-
-
-        JSONArray jsonArray = new JSONArray(json);
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject object = jsonArray.getJSONObject(i);
-            String  name = object.getString("firstname")+" "+object.getString("lastname");
-            String  user_mail = object.getString("user_email");
-            String  horario = object.getString("horario");
-            String  fecha = object.getString("fecha");
-
-            System.out.println("------------------------------");
-            System.out.println("Nombre: "+ name);
-            System.out.println("Correo: "+ user_mail);
-            System.out.println("horario: "+ horario);
-            System.out.println("fecha: "+ fecha);
-            System.out.println("-------------------------------");
-
-        }
-
-
-
-
-        CurrentWethear currentWethear = new CurrentWethear(MainActivity.this);
-         /*JSONObject  currentyWeather =  jsonObject.getJSONObject("currently");
+         JSONObject jsonObject = new JSONObject(json);
+         CurrentWethear currentWethear = new CurrentWethear(MainActivity.this);
+         JSONObject  currentyWeather =  jsonObject.getJSONObject("currently");
          String sumary = currentyWeather.getString("summary");
          String icon = currentyWeather.getString("icon");
          String temperature = Math.round(currentyWeather.getDouble("temperature")) + " ";
@@ -154,12 +127,11 @@ public class MainActivity extends Activity {
          JSONObject jsoTodayWeather = jsonWithDataWeather.getJSONObject(0);
          String maxTemperature ="H: "+ Math.round(jsoTodayWeather.getDouble("temperatureMax"))+ "";
          String minTemperature ="L: "+Math.round(jsoTodayWeather.getDouble("temperatureMin"))+ "";
-         CurrentWethear currentWethear = new CurrentWethear(MainActivity.this);
          currentWethear.setDescripcionWeather(sumary);
          currentWethear.setImagenTiempo(icon);
          currentWethear.setTemperature(temperature);
          currentWethear.setGradoUnoWeather(maxTemperature);
-         currentWethear.setGradDosWwtaher(minTemperature);*/
+         currentWethear.setGradDosWwtaher(minTemperature);
         return currentWethear;
     }
 
@@ -168,5 +140,19 @@ public class MainActivity extends Activity {
 
     }
 
-
+    private ArrayList<ClienteSuperFish> getClienteSuperFish(String json)throws JSONException{
+        //String url ="http://www.superfish.com.mx/v1/citas";
+        JSONArray jsonArray = new JSONArray(json); //Obtienes el payLoad de JSON
+        ArrayList clientesDataList = new ArrayList(); //Generas el ArrayList para cachar los datos del Objeto
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject object = jsonArray.getJSONObject(i);
+            ClienteSuperFish clienteData = new ClienteSuperFish();
+            clienteData.setNombre(object.getString("firstname")+" "+object.getString("lastname"));
+            clienteData.setCorreo(object.getString("user_email"));
+            clienteData.setFecha(object.getString("fecha"));
+            clienteData.setHorario(object.getString("horario"));
+            clientesDataList.add(clienteData);
+        }
+        return clientesDataList;
+    }
 }
