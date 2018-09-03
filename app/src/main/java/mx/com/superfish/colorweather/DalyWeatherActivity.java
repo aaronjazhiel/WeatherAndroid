@@ -15,31 +15,18 @@ public class DalyWeatherActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daly_weather);
 
-        ArrayList diasSemana = new ArrayList();
+        ArrayList listDay = new ArrayList();
 
-        diasSemana.add("Lunes");
-        diasSemana.add("Martes");
-        diasSemana.add("Miercoles");
-        diasSemana.add("Jueves");
-        diasSemana.add("Viernes");
-        diasSemana.add("Sabado");
-        diasSemana.add("Viernes");
-        diasSemana.add("Sabado");
-        diasSemana.add("Viernes");
-        diasSemana.add("Sabado");
-        diasSemana.add("Viernes");
-        diasSemana.add("Sabado");
-        diasSemana.add("Viernes");
-        diasSemana.add("Sabado");
-        diasSemana.add("Viernes");
-        diasSemana.add("Sabado");
-        diasSemana.add("Viernes");
-        diasSemana.add("Sabado");
-        diasSemana.add("Viernes");
-        diasSemana.add("Sabado");
 
-         ArrayAdapter arrayAdapterDias = new ArrayAdapter(this,android.R.layout.simple_list_item_1,diasSemana);
-          setListAdapter(arrayAdapterDias);
+       for(int i =0 ;i <500 ;i++) {
+           Day day = new Day();
+           day.setTitulo("Thiurday");
+           day.setDescription("Partly Cloudly in the morning");
+           day.setProcentaje("porcentaje");
+           listDay.add(day);
 
+       }
+        AdapaterDailyWeather dailyAdapater = new    AdapaterDailyWeather(listDay,this);
+        setListAdapter(dailyAdapater);
     }
 }
