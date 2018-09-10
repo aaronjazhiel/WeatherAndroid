@@ -72,11 +72,11 @@ public class MainActivity extends Activity {
                     public void onResponse(String response) {
                         try {
                             CurrentWethear currentWethear=getCurrentWetaherFromJson(response);
-                           // imagenTiempo.setImageDrawable(currentWethear.getIconDrawableResource());
-                            //descripcionWeather.setText(currentWethear.getDescripcionWeather());
-                            //gradosnWeather.setText(currentWethear.getTemperature());
-                            //gradoUnoWeather.setText(currentWethear.getGradoUnoWeather());
-                            //gradDosWwtaher.setText(currentWethear.getGradDosWwtaher());
+                            imagenTiempo.setImageDrawable(currentWethear.getIconDrawableResource());
+                            descripcionWeather.setText(currentWethear.getDescripcionWeather());
+                             gradosnWeather.setText(currentWethear.getTemperature());
+                             gradoUnoWeather.setText(currentWethear.getGradoUnoWeather());
+                            gradDosWwtaher.setText(currentWethear.getGradDosWwtaher());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -119,33 +119,12 @@ public class MainActivity extends Activity {
     }
 
     private CurrentWethear getCurrentWetaherFromJson(String json) throws JSONException{
-        // JSONObject jsonObject = new JSONObject(json);
+         JSONObject jsonObject = new JSONObject(json);
+         JSONArray jsonArray = new JSONArray(json);
 
+         CurrentWethear currentWethear = new CurrentWethear(MainActivity.this);
 
-
-        JSONArray jsonArray = new JSONArray(json);
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject object = jsonArray.getJSONObject(i);
-            String  name = object.getString("firstname")+" "+object.getString("lastname");
-            String  user_mail = object.getString("user_email");
-            String  horario = object.getString("horario");
-            String  fecha = object.getString("fecha");
-
-            System.out.println("------------------------------");
-            System.out.println("Nombre: "+ name);
-            System.out.println("Correo: "+ user_mail);
-            System.out.println("horario: "+ horario);
-            System.out.println("fecha: "+ fecha);
-            System.out.println("-------------------------------");
-
-        }
-
-
-
-
-        CurrentWethear currentWethear = new CurrentWethear(MainActivity.this);
-         /*JSONObject  currentyWeather =  jsonObject.getJSONObject("currently");
+         JSONObject  currentyWeather =  jsonObject.getJSONObject("currently");
          String sumary = currentyWeather.getString("summary");
          String icon = currentyWeather.getString("icon");
          String temperature = Math.round(currentyWeather.getDouble("temperature")) + " ";
@@ -154,18 +133,13 @@ public class MainActivity extends Activity {
          JSONObject jsoTodayWeather = jsonWithDataWeather.getJSONObject(0);
          String maxTemperature ="H: "+ Math.round(jsoTodayWeather.getDouble("temperatureMax"))+ "";
          String minTemperature ="L: "+Math.round(jsoTodayWeather.getDouble("temperatureMin"))+ "";
-         CurrentWethear currentWethear = new CurrentWethear(MainActivity.this);
+
          currentWethear.setDescripcionWeather(sumary);
          currentWethear.setImagenTiempo(icon);
          currentWethear.setTemperature(temperature);
          currentWethear.setGradoUnoWeather(maxTemperature);
-         currentWethear.setGradDosWwtaher(minTemperature);*/
+         currentWethear.setGradDosWwtaher(minTemperature);
         return currentWethear;
-    }
-
-    private   void getDayliWeather(){
-
-
     }
 
 
