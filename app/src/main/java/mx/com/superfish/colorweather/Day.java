@@ -22,9 +22,7 @@ public class Day {
         this.description = description;
     }
 
-    public String getProcentaje() {
-        return procentaje;
-    }
+    public String getProcentaje() { return procentaje; }
 
     public void setProcentaje(String procentaje) {
         this.procentaje = procentaje;
